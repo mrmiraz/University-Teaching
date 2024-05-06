@@ -1,74 +1,89 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
 
 #define STACK_MAX_SIZE 100
 #define NULL_VALUE -99999
 
+//Structure of a node of the stack
 struct Node{
-    int data;
-    struct Node *next;
+  int data;
+  struct Node *next;
 };
 
-int top; // it will indicate size of currecnt stack
+int top;// it will indicate size of currecnt stack
 struct Node *head;
+struct Node *tail;
 
+//Initialization
 void initStack(){
-    top = 0; // initaial stack size is zero
-    head =  0;
+    top = 0;    
+    head = 0;
+    tail = 0;
 }
 
+//Insert data to the tail
 bool push(int x){
     if(top == STACK_MAX_SIZE) return false;
-    struct Node *newNode = new Node(); // memory allocation for new node
-    newNode->data = x; // set data for new node
-    newNode->next = 0;  // new node point null
-    if(top == 0) // stack is empty
+    struct Node *newNode = new Node();
+    newNode->data = x;
+    newNode->next = 0;
+    if(top == 0){
         head = newNode;
+        tail = newNode;
+    }
     else{
-        struct Node *pointer = head;
-        while(pointer->next != 0){
-            pointer = pointer->next;
-        }
-        pointer->next = newNode; // add add new node with the last node
+        tail->next = newNode;
+        tail = newNode;
     }
     top++;
     return true;
 }
 
-int pop(){
-    if(top == 0) return NULL_VALUE; // nothing to delete
-    struct Node *pointer = head, *prevNode = 0;
-    if(top == 1)
-        head = 0; // deleting node
+//Delete top value
+bool pop(){
+    if(top == 0)return false;
+    if(top == 1){
+        head = tail = 0;
+    }
     else{
-        while(pointer->next != 0){
-        prevNode = pointer;
-        pointer = pointer->next;
+        struct Node *temp = head;
+        while(temp->next != 0){
+            if(temp->next->next == 0){
+                temp->next = 0;
+                tail = temp;
+                break;
+            }
+            temp = temp->next;
         }
-        prevNode->next = 0; // disjointing/deleting last node
     }
     top--;
-    return pointer->data; // returning deleting node value
+    return true;
 }
 
-bool isEmpty(){
-    if(top == 0)
-        return true;
-    return false;
+//Return top value of the stack
+int topValue(){
+    if(top == 0)return NULL_VALUE;
+    return tail->data;
 }
 
+//Check the stack is full or not
 bool isFull(){
-    if(top == STACK_MAX_SIZE)
-        return true;
+    if(top == STACK_MAX_SIZE)return true;
     return false;
 }
 
-void printStack(){
-    struct Node *pointer = head;
+//Check the stack is empty or not
+bool isEmpty(){
+    if(top == 0) return true;
+    return false;
+}
 
-    while(pointer != 0){
-        cout << pointer->data << " ";
-        pointer = pointer->next;
+//Display the full stack
+void printStack(){
+    struct Node *temp = head;
+    while(temp != 0){
+        cout << temp->data << " ";
+        temp = temp->next;
     }
     cout << endl;
 }
@@ -87,7 +102,7 @@ int main(){
                 push(data);
                 break;
             case 'p':
-                pop();
+                cout << pop() << endl;
                 break;
             case 'P':
                 printStack();
@@ -97,6 +112,9 @@ int main(){
                 break;
             case 'F':
                 cout << isFull();
+                break;
+            case 't':
+                cout << topValue();
                 break;
             case 'e':
                 exit = true;
