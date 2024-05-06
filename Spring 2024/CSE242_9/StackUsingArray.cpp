@@ -5,13 +5,15 @@ using namespace std;
 #define MAX_STACK_SIZE 100
 #define NULL_VALUE -99999
 
-int top;
+int top; //Indicate the current size of the array
 int stack[MAX_STACK_SIZE];
 
+//Initialization
 void initStack(){
     top = 0;
 }
 
+//Insert data to the stack
 bool push(int data){
     if(top == MAX_STACK_SIZE)return false;
     stack[top] = data;
@@ -19,27 +21,32 @@ bool push(int data){
     return true;
 }
 
+//Delete the top value of the stack
 bool pop(){
     if(top == 0) return false;
     top--;
     return true;
 }
 
+//Check the stack is full or not
 bool isFull(){
     if(top == MAX_STACK_SIZE) return true;
     return false;
 }
 
+//Check the stack is empty or not
 bool isEmpty(){
     if(top == 0) return true;
     return false;
 }
 
+//Find the top value of the stack
 int topValue(){
     if(top == 0)return NULL_VALUE;
-    return stack[top];
+    return stack[top-1];
 }
 
+//Display the full stack value
 void printStack(){
     for(int i =0; i < top; i++){
         cout << stack[i] << " ";
