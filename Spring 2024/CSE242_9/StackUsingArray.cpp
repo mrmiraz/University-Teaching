@@ -1,56 +1,53 @@
+// Online C++ compiler to run C++ program online
 #include <iostream>
 using namespace std;
 
-#define STACK_MAX_SIZE 100
+#define MAX_STACK_SIZE 100
 #define NULL_VALUE -99999
-int data[STACK_MAX_SIZE];
-int top;
 
-void initStack()
-{
-    top = 0 ;
+int top;
+int stack[MAX_STACK_SIZE];
+
+void initStack(){
+    top = 0;
 }
 
-bool push(int item)
-{
-    if(top == STACK_MAX_SIZE) return false;
-    data[top] = item;
-    top++ ;
+bool push(int data){
+    if(top == MAX_STACK_SIZE)return false;
+    stack[top] = data;
+    top++;
     return true;
 }
 
-int pop()
-{
-    if(top == 0) return NULL_VALUE;
-    top-- ;
-    return data[top] ;
+bool pop(){
+    if(top == 0) return false;
+    top--;
+    return true;
 }
 
-
-bool isEmpty()
-{
-    if(top == 0) return true ;
-    else return false;
+bool isFull(){
+    if(top == MAX_STACK_SIZE) return true;
+    return false;
 }
 
-bool isFull()
-{
-    if(top == STACK_MAX_SIZE) return true;
-    else return false;
+bool isEmpty(){
+    if(top == 0) return true;
+    return false;
 }
 
-void printStack()
-{
-    int i;
-    for(i=0;i<top;i++)
-    {
-        cout << data[i] << " ";
-        }
+int topValue(){
+    if(top == 0)return NULL_VALUE;
+    return stack[top];
+}
+
+void printStack(){
+    for(int i =0; i < top; i++){
+        cout << stack[i] << " ";
+    }
     cout << endl;
 }
 
-int main()
-{
+int main(){
     initStack();
     char choice;
     int data;
@@ -64,7 +61,7 @@ int main()
                 push(data);
                 break;
             case 'p':
-                pop();
+                cout << pop() << endl;
                 break;
             case 'P':
                 printStack();
@@ -75,10 +72,12 @@ int main()
             case 'F':
                 cout << isFull();
                 break;
+            case 't':
+                cout << topValue();
+                break;
             case 'e':
                 exit = true;
         }
     }
     return 0;
-
 }
